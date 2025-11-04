@@ -103,13 +103,17 @@ const UsersList = () => {
         .spaced-table .ant-table-container {
           background: transparent !important;
         }
+        .spaced-table .ant-table-content table {
+          border-collapse: separate !important;
+          border-spacing: 0 10px !important;
+        }
         .spaced-table .ant-table-tbody > tr > td {
           background: #f5f5f5 !important;
-          border-bottom: 10px solid transparent !important;
+          border: none !important;
         }
         .spaced-table .ant-table-thead > tr > th {
           background: #f5f5f5 !important;
-          border-bottom: 10px solid transparent !important;
+          border: none !important;
         }
       `}</style>
       <Table 
