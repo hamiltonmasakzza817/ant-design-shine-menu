@@ -94,45 +94,26 @@ const data: UserType[] = [
 
 const UsersList = () => {
   return (
-    <div style={{ background: '#f0f2f5', padding: '24px', borderRadius: '8px' }}>
-      <h1 style={{ fontSize: 28, marginBottom: 24 }}>用户列表</h1>
+    <div style={{ background: 'red', padding: '24px' }}>
+      <h1 style={{ fontSize: 28, marginBottom: 24, color: 'white' }}>用户列表</h1>
       <style>{`
+        .spaced-table .ant-table {
+          background: transparent !important;
+        }
+        .spaced-table .ant-table-container {
+          background: transparent !important;
+        }
         .spaced-table .ant-table-tbody > tr > td {
-          background: white !important;
-          border-bottom: 8px solid transparent !important;
-          background-clip: padding-box;
-        }
-        .spaced-table .ant-table-tbody > tr:first-child > td {
-          border-top: 8px solid transparent;
-          background-clip: padding-box;
-        }
-        .spaced-table .ant-table-tbody > tr > td:first-child {
-          border-top-left-radius: 8px;
-          border-bottom-left-radius: 8px;
-        }
-        .spaced-table .ant-table-tbody > tr > td:last-child {
-          border-top-right-radius: 8px;
-          border-bottom-right-radius: 8px;
+          border-bottom: 10px solid transparent !important;
         }
         .spaced-table .ant-table-thead > tr > th {
-          background: white !important;
-          border-bottom: 8px solid transparent !important;
-          background-clip: padding-box;
-        }
-        .spaced-table .ant-table-thead > tr > th:first-child {
-          border-top-left-radius: 8px;
-          border-bottom-left-radius: 8px;
-        }
-        .spaced-table .ant-table-thead > tr > th:last-child {
-          border-top-right-radius: 8px;
-          border-bottom-right-radius: 8px;
+          border-bottom: 10px solid transparent !important;
         }
       `}</style>
       <Table 
         columns={columns} 
         dataSource={data} 
         className="spaced-table"
-        style={{ background: 'transparent' }}
       />
     </div>
   );
