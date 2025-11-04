@@ -104,9 +104,11 @@ const UsersList = () => {
           background: transparent !important;
         }
         .spaced-table .ant-table-tbody > tr > td {
+          background: #f5f5f5 !important;
           border-bottom: 10px solid transparent !important;
         }
         .spaced-table .ant-table-thead > tr > th {
+          background: #f5f5f5 !important;
           border-bottom: 10px solid transparent !important;
         }
       `}</style>
