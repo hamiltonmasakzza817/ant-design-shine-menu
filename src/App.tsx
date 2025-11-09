@@ -13,6 +13,7 @@ import DocumentsGuides from "./pages/DocumentsGuides";
 import DocumentsApi from "./pages/DocumentsApi";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import DecisionBuilder from "./pages/DecisionBuilder";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="documents/guides" element={<DocumentsGuides />} />
             <Route path="documents/api" element={<DocumentsApi />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="automation/builder" element={<DecisionBuilder />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

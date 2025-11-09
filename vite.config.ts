@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      reactflow: path.resolve(__dirname, "./src/lib/simple-reactflow"),
     },
   },
 }));

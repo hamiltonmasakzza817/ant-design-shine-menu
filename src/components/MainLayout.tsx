@@ -11,6 +11,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   BulbOutlined,
+  BranchesOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
@@ -73,6 +74,11 @@ const menuItems: MenuItem[] = [
         label: 'API 文档',
       },
     ],
+  },
+  {
+    key: '/automation/builder',
+    icon: <BranchesOutlined />,
+    label: '流程编排',
   },
   {
     key: '/settings',
