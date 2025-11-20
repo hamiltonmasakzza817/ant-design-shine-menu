@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #0f172a;
+  background-color: #f8fafc;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.panel-title {
+  @apply text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3 uppercase tracking-wide;
+}
+
+.dashed-box {
+  @apply border border-dashed border-border rounded-lg bg-white transition-colors duration-200;
+}
+
+.dashed-box.hovered {
+  @apply border-accent/60 bg-sky-50;
+}
+
+.dashed-box.dragging {
+  @apply border-2 border-accent/80 bg-white;
+}
