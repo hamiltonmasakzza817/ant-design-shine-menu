@@ -1,19 +1,10 @@
 import { ConfigProvider, theme } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
-import Home from "./pages/Home";
-import DashboardAnalytics from "./pages/DashboardAnalytics";
-import DashboardMonitor from "./pages/DashboardMonitor";
-import UsersList from "./pages/UsersList";
-import UsersRoles from "./pages/UsersRoles";
-import Team from "./pages/Team";
-import DocumentsGuides from "./pages/DocumentsGuides";
-import DocumentsApi from "./pages/DocumentsApi";
-import Settings from "./pages/Settings";
+import FormDesigner from "./pages/FormDesigner";
 import NotFound from "./pages/NotFound";
-import DecisionBuilder from "./pages/DecisionBuilder";
 
 const queryClient = new QueryClient();
 
@@ -32,16 +23,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route index element={<Home />} />
-            <Route path="dashboard/analytics" element={<DashboardAnalytics />} />
-            <Route path="dashboard/monitor" element={<DashboardMonitor />} />
-            <Route path="users/list" element={<UsersList />} />
-            <Route path="users/roles" element={<UsersRoles />} />
-            <Route path="team" element={<Team />} />
-            <Route path="documents/guides" element={<DocumentsGuides />} />
-            <Route path="documents/api" element={<DocumentsApi />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="automation/builder" element={<DecisionBuilder />} />
+            <Route index element={<Navigate to="/form/designer" replace />} />
+            <Route path="form/designer" element={<FormDesigner />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
