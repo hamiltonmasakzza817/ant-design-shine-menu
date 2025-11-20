@@ -12,6 +12,7 @@ import {
   MenuUnfoldOutlined,
   BulbOutlined,
   BranchesOutlined,
+  FormOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
@@ -79,6 +80,11 @@ const menuItems: MenuItem[] = [
     key: '/automation/builder',
     icon: <BranchesOutlined />,
     label: '流程编排',
+  },
+  {
+    key: '/form/designer',
+    icon: <FormOutlined />,
+    label: '表单设计器',
   },
   {
     key: '/settings',

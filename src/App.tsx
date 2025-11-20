@@ -14,6 +14,7 @@ import DocumentsApi from "./pages/DocumentsApi";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import DecisionBuilder from "./pages/DecisionBuilder";
+import FormDesigner from "./pages/FormDesigner";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="documents/api" element={<DocumentsApi />} />
             <Route path="settings" element={<Settings />} />
             <Route path="automation/builder" element={<DecisionBuilder />} />
+            <Route path="form/designer" element={<FormDesigner />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
