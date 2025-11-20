@@ -618,7 +618,14 @@ const FormDesigner = () => {
         {renderCanvasContent()}
       </div>
 
-      <Drawer title="组件选择" placement="right" width={320} open={paletteOpen} onClose={() => setPaletteOpen(false)}>
+      <Drawer
+        title="组件选择"
+        placement="right"
+        width={320}
+        open={paletteOpen}
+        onClose={() => setPaletteOpen(false)}
+        mask={false}
+      >
         {paletteGroups.map((group) => (
           <div key={group.key} style={{ marginBottom: 24 }}>
             <Space direction="vertical" size={12} style={{ width: '100%' }}>
@@ -651,6 +658,7 @@ const FormDesigner = () => {
         open={Boolean(selectedComponent)}
         onClose={() => setSelectedId(null)}
         destroyOnClose={false}
+        mask={false}
       >
         {selectedComponent ? (
           <Form layout="vertical" form={form} onValuesChange={handlePropertyChange} onFinish={handlePropertySave}>
