@@ -21,6 +21,8 @@ const { Text } = Typography;
 
 const layoutComponentTypes = new Set<FormComponentType>(['form', 'row', 'column']);
 
+type DropFeedback = 'idle' | 'valid' | 'invalid';
+
 type FormComponentType = 'form' | 'row' | 'column' | 'input' | 'select' | 'button' | 'image' | 'text';
 
 type FormComponent = {
@@ -225,6 +227,8 @@ const FormDesigner = () => {
   const [paletteOpen, setPaletteOpen] = useState(true);
   const [dragContext, setDragContext] = useState<DragContext | null>(null);
   const [activeDrop, setActiveDrop] = useState<DropZoneTarget | null>(null);
+  const [isCanvasDragOver, setIsCanvasDragOver] = useState(false);
+  const [dropFeedback, setDropFeedback] = useState<DropFeedback>('idle');
   const [form] = Form.useForm<PropertyFormValues>();
 
   const selectedComponent = useMemo(
@@ -254,6 +258,8 @@ const FormDesigner = () => {
   const clearDragState = () => {
     setDragContext(null);
     setActiveDrop(null);
+    setIsCanvasDragOver(false);
+    setDropFeedback('idle');
   };
 
   const handlePaletteDragStart = (componentType: FormComponentType) => (event: DragEvent<HTMLDivElement>) => {
@@ -261,6 +267,7 @@ const FormDesigner = () => {
     event.dataTransfer.setData('application/form-component', JSON.stringify(payload));
     event.dataTransfer.effectAllowed = 'copy';
     setDragContext(payload);
+    setDropFeedback('idle');
   };
 
   const handleComponentDragStart = (component: FormComponent) => (event: DragEvent<HTMLDivElement>) => {
@@ -268,6 +275,7 @@ const FormDesigner = () => {
     event.dataTransfer.setData('application/form-component', JSON.stringify(payload));
     event.dataTransfer.effectAllowed = 'move';
     setDragContext(payload);
+    setDropFeedback('idle');
   };
 
   const canDropOnTarget = (target: DropZoneTarget) => !target.parentType || layoutComponentTypes.has(target.parentType);
@@ -284,10 +292,13 @@ const FormDesigner = () => {
     event.preventDefault();
     event.dataTransfer.dropEffect = dragContext.source === 'palette' ? 'copy' : 'move';
     setActiveDrop(target);
+    setDropFeedback('valid');
+    setIsCanvasDragOver(true);
     return true;
   };
 
   const handleDropZoneDrag = (target: DropZoneTarget) => (event: DragEvent<HTMLDivElement>) => {
+    event.stopPropagation();
     registerDragIntent(event, target);
   };
 
@@ -299,10 +310,12 @@ const FormDesigner = () => {
       activeDrop.index === target.index
     ) {
       setActiveDrop(null);
+      setDropFeedback(isCanvasDragOver ? 'invalid' : 'idle');
     }
   };
 
   const handleDrop = (target: DropZoneTarget) => (event: DragEvent<HTMLDivElement>) => {
+    event.stopPropagation();
     const allowed = registerDragIntent(event, target);
     if (!allowed || !dragContext) {
       return;
@@ -331,6 +344,49 @@ const FormDesigner = () => {
       return insertComponent(tree, target.parentId, target.index, removed);
     });
 
+    clearDragState();
+  };
+
+  const handleCanvasDragEnter = (event: DragEvent<HTMLDivElement>) => {
+    if (!dragContext) {
+      return;
+    }
+    event.preventDefault();
+    setIsCanvasDragOver(true);
+    if (!activeDrop) {
+      event.dataTransfer.dropEffect = 'none';
+      setDropFeedback('invalid');
+    }
+  };
+
+  const handleCanvasDragOver = (event: DragEvent<HTMLDivElement>) => {
+    if (!dragContext) {
+      return;
+    }
+    event.preventDefault();
+    setIsCanvasDragOver(true);
+    if (!activeDrop) {
+      event.dataTransfer.dropEffect = 'none';
+      setDropFeedback('invalid');
+    }
+  };
+
+  const handleCanvasDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    const relatedTarget = event.relatedTarget as Node | null;
+    if (relatedTarget && event.currentTarget.contains(relatedTarget)) {
+      return;
+    }
+    setIsCanvasDragOver(false);
+    if (!activeDrop) {
+      setDropFeedback('idle');
+    }
+  };
+
+  const handleCanvasDrop = (event: DragEvent<HTMLDivElement>) => {
+    if (!dragContext) {
+      return;
+    }
+    event.preventDefault();
     clearDragState();
   };
 
@@ -520,9 +576,14 @@ const FormDesigner = () => {
     message.success('属性已更新');
   };
 
+  const isInvalidCanvasState = Boolean(dragContext) && dropFeedback === 'invalid' && isCanvasDragOver;
   const canvasClass = clsx('form-designer__canvas', {
     'form-designer__canvas--dragging': Boolean(dragContext),
+    'form-designer__canvas--invalid': isInvalidCanvasState,
   });
+
+  const shouldShowValidHint = Boolean(dragContext) && dropFeedback === 'valid';
+  const shouldShowInvalidHint = Boolean(dragContext) && dropFeedback === 'invalid' && isCanvasDragOver;
 
   return (
     <div className="form-designer">
@@ -536,7 +597,24 @@ const FormDesigner = () => {
         <Text type="secondary">拖拽组件即可完成表单搭建</Text>
       </div>
 
-      <div className={canvasClass} onClick={() => setSelectedId(null)}>
+      <div
+        className={canvasClass}
+        onClick={() => setSelectedId(null)}
+        onDragEnter={handleCanvasDragEnter}
+        onDragOver={handleCanvasDragOver}
+        onDragLeave={handleCanvasDragLeave}
+        onDrop={handleCanvasDrop}
+      >
+        {(shouldShowValidHint || shouldShowInvalidHint) && (
+          <div
+            className={clsx('form-designer__canvas-hint', {
+              'form-designer__canvas-hint--valid': shouldShowValidHint,
+              'form-designer__canvas-hint--invalid': shouldShowInvalidHint,
+            })}
+          >
+            {shouldShowValidHint ? '松开放置到高亮区域' : '此区域无法放置组件'}
+          </div>
+        )}
         {renderCanvasContent()}
       </div>
 
