@@ -145,7 +145,7 @@ const MainLayout = () => {
           theme={darkMode ? 'dark' : 'light'}
           mode="inline"
           selectedKeys={[location.pathname]}
-          defaultOpenKeys={['/dashboard', '/users', '/documents']}
+          defaultOpenKeys={[]}
           items={menuItems}
           onClick={handleMenuClick}
         />
