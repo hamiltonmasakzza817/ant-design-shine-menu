@@ -1,7 +1,19 @@
 import { useState } from 'react';
 import { Layout, Menu, Switch, theme } from 'antd';
 import type { MenuProps } from 'antd';
-import { BulbOutlined, FormOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import {
+  HomeOutlined,
+  UserOutlined,
+  SettingOutlined,
+  AppstoreOutlined,
+  FileTextOutlined,
+  TeamOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  BulbOutlined,
+  BranchesOutlined,
+  FormOutlined,
+} from '@ant-design/icons';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
@@ -10,9 +22,74 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const menuItems: MenuItem[] = [
   {
+    key: '/',
+    icon: <HomeOutlined />,
+    label: '首页',
+  },
+  {
+    key: '/dashboard',
+    icon: <AppstoreOutlined />,
+    label: '仪表盘',
+    children: [
+      {
+        key: '/dashboard/analytics',
+        label: '数据分析',
+      },
+      {
+        key: '/dashboard/monitor',
+        label: '系统监控',
+      },
+    ],
+  },
+  {
+    key: '/users',
+    icon: <UserOutlined />,
+    label: '用户管理',
+    children: [
+      {
+        key: '/users/list',
+        label: '用户列表',
+      },
+      {
+        key: '/users/roles',
+        label: '角色管理',
+      },
+    ],
+  },
+  {
+    key: '/team',
+    icon: <TeamOutlined />,
+    label: '团队协作',
+  },
+  {
+    key: '/documents',
+    icon: <FileTextOutlined />,
+    label: '文档中心',
+    children: [
+      {
+        key: '/documents/guides',
+        label: '使用指南',
+      },
+      {
+        key: '/documents/api',
+        label: 'API 文档',
+      },
+    ],
+  },
+  {
+    key: '/automation/builder',
+    icon: <BranchesOutlined />,
+    label: '流程编排',
+  },
+  {
     key: '/form/designer',
     icon: <FormOutlined />,
     label: '表单设计器',
+  },
+  {
+    key: '/settings',
+    icon: <SettingOutlined />,
+    label: '系统设置',
   },
 ];
 
